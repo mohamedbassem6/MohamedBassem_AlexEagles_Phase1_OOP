@@ -1,19 +1,23 @@
 from datetime import datetime
 
 class Airport:
-    def __init__(self, name, country, city):
+    def __init__(self, name, code, country, city):
         self._name = name
+        self._code = code
         self._country = country
         self._city = city
+    
+    def get_name(self):
+        return self._name
+    
+    def get_code(self):
+        return self._code
 
     def get_country(self):
         return self._country
     
     def get_city(self):
         return self._city
-    
-    def get_name(self):
-        return self._name
 
 
 class Airline:
@@ -58,6 +62,15 @@ class Ticket:
         self._flight = flight
         self._seat_no = seat_no
         self._meal_type = meal_type
+
+    def get_flight(self):
+        return self._flight
+    
+    def get_seat_no(self):
+        return self._seat_no
+    
+    def get_meal_type(self):
+        return self._meal_type
 
 
 class Customer:
@@ -117,7 +130,7 @@ class FlightSystem:
 
     def get_airport(self, name: str):
         for airport in self.airports:
-            if name.capitalize() == airport.get_name().capitalize() or name.capitalize() == airport.get_country().capitalize() or name.capitalize() == airport.get_city().capitalize():
+            if name.capitalize() == airport.get_name().capitalize() or name.capitalize() == airport.get_country().capitalize() or name.capitalize() == airport.get_city().capitalize() or name.capitalize() == airport.get_code().capitalize():
                 return airport
             
     def get_airlines(self):

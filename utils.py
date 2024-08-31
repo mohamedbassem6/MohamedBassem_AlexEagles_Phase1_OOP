@@ -16,13 +16,13 @@ def populate(sys: FlightSystem):
     sys.add_airline(Airline("Air France"))
     sys.add_airline(Airline("Singapore Airlines"))
 
-    sys.add_airport(Airport("Cairo International Airport", "Cairo", "Egypt"))
-    sys.add_airport(Airport("Heathrow Airport", "London", "United Kingdom"))
-    sys.add_airport(Airport("Hartsfield-Jackson Atlanta International Airport", "Atlanta", "United States"))
-    sys.add_airport(Airport("Beijing Capital International Airport", "Beijing", "China"))
-    sys.add_airport(Airport("Dubai International Airport", "Dubai", "United Arab Emirates"))
-    sys.add_airport(Airport("Los Angeles International Airport", "Los Angeles", "United States"))
-    sys.add_airport(Airport("Tokyo Haneda Airport", "Tokyo", "Japan"))
+    sys.add_airport(Airport("Cairo International Airport", "CAI", "Cairo", "Egypt"))
+    sys.add_airport(Airport("Heathrow Airport", "LHR", "London", "United Kingdom"))
+    sys.add_airport(Airport("Hartsfield-Jackson Atlanta International Airport", "ATL", "Atlanta", "United States"))
+    sys.add_airport(Airport("Beijing Capital International Airport", "PEK", "Beijing", "China"))
+    sys.add_airport(Airport("Dubai International Airport", "DXB", "Dubai", "United Arab Emirates"))
+    sys.add_airport(Airport("Los Angeles International Airport", "LAX","Los Angeles", "United States"))
+    sys.add_airport(Airport("Tokyo Haneda Airport", "HND", "Tokyo", "Japan"))
 
     sys.add_flight(
         Flight(
@@ -130,7 +130,7 @@ def prompt_search(sys: FlightSystem):
 
     date = input("Enter the day (YYYY-MM-DD): ")
     if date.strip():
-        search_keys["date"] = datetime.strptime(date, "%Y-%m-%d")
+        search_keys["date"] = datetime.strptime(date, "%Y-%m-%d").date()
 
     price = input("Enter the price: ")
     if price.strip():
@@ -149,8 +149,8 @@ def prompt_search(sys: FlightSystem):
             print()
             print(f"Flight number: {flight.get_flight_number()}")
             print(f"Airline: {flight.get_airline().get_name()}")
-            print(f"Departure: {flight.get_departure_airport().get_name()}")
-            print(f"Destination: {flight.get_arrival_airport().get_name()}")
+            print(f"Departure: {flight.get_departure_airport().get_name()} ({flight.get_departure_airport().get_code()})")
+            print(f"Destination: {flight.get_arrival_airport().get_name()} ({flight.get_arrival_airport().get_code()})")
             print(f"Time: {flight.get_time().strftime("%Y-%m-%d %I:%M %p")}")
             print(f"Price: {flight.get_price()}")
 
@@ -172,7 +172,7 @@ def prompt_book(sys: FlightSystem):
         print("\nPlease enter a valid meal type!")
         meal_type = input("Enter your meal type (Chicken/Beef): ")
 
-    ticket = Ticket(flight, random.randint(1, 250), meal_type)
+    ticket = Ticket(flight, random.randint(1, 250), meal_type.capitalize())
     customer.book_ticket(ticket)
 
     print("\nTicket booked successfully!\n")
@@ -190,8 +190,8 @@ def view_tickets(sys: FlightSystem):
     for ticket in tickets:
         print(f"Flight number: {ticket.get_flight().get_flight_number()}")
         print(f"Airline: {ticket.get_flight().get_airline().get_name()}")
-        print(f"Departure: {ticket.get_flight().get_departure_airport().get_name()}")
-        print(f"Destination: {ticket.get_flight().get_arrival_airport().get_name()}")
+        print(f"Departure: {ticket.get_flight().get_departure_airport().get_name()} ({ticket.get_flight().get_departure_airport().get_code()})")
+        print(f"Destination: {ticket.get_flight().get_arrival_airport().get_name()} ({ticket.get_flight().get_arrival_airport().get_code()})")
         print(f"Time: {ticket.get_flight().get_time()}")
         print(f"Price: {ticket.get_flight().get_price()}")
         print(f"Seat number: {ticket.get_seat_no()}")
@@ -208,4 +208,4 @@ def view_airlines(sys: FlightSystem):
 def view_airports(sys: FlightSystem):
     print("\nAirport list\n")
     for airport in sys.get_airports():
-        print(airport.get_name())
+        print(f"{airport.get_name()} - {airport.get_code()} ({airport.get_city()}, {airport.get_country()})")
